@@ -1,5 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@/types/*": ["types/*"],
+      "@/utils/*": ["utils/*"],
+      "@/queries/*": ["queries/*"],
+      "@/services/*": ["services/*"],
+      "@/components/*": ["components/*"],
+    },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
