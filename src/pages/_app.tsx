@@ -4,10 +4,8 @@ import { Provider } from "next-auth/client"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
-// import "tailwindcss/tailwind.css"
-// import "remixicon/fonts/remixicon.css"
-// import "@gouvfr/dsfr/dist/css/dsfr.min.css"
-// import "../styles/index.css"
+import "@/styles/tailwind.scss"
+import "@/styles/globals.scss"
 
 const App = ({ Component, pageProps }: AppProps): JSX.Element => {
   return (

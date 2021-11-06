@@ -1,0 +1,14 @@
+.posts {
+  .list {
+    @apply gap-x-8;
+
+    column-count: 2;
+
+    & > li {
+      @apply mb-8;
+
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+  }
+}

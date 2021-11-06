@@ -1,0 +1,11 @@
+ul.teams {
+  @apply border-r border-gray-400 pr-5;
+
+  li {
+    @apply whitespace-nowrap hover:bg-gray-300 py-2 px-2;
+
+    a {
+      @apply text-gray-700;
+    }
+  }
+}

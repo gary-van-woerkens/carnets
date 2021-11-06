@@ -3,21 +3,21 @@ import Link from "next/link"
 import User from "@/components/user"
 import Auth from "@/components/auth"
 
-import { Header as HeaderDSFR } from "react-dsfr"
-
-const Header = (): JSX.Element => (
-  <HeaderDSFR
-    baseline="Carnets de bord des produits @SocialGouv"
-    service="Carnets"
-  >
-    <>
+const Header = () => (
+  <header>
+    <div className="logo">République Française</div>
+    <div className="title">
+      <h1>Carnets</h1>
+      <p>Carnets de bord des produits @SocialGouv</p>
+    </div>
+    <nav>
       <Link href="/stat">
         <a>Statistiques</a>
       </Link>
       <Auth />
       <User />
-    </>
-  </HeaderDSFR>
+    </nav>
+  </header>
 )
 
 export default Header

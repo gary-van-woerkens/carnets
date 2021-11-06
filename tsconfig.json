@@ -4,6 +4,7 @@
     "paths": {
       "@/types/*": ["types/*"],
       "@/utils/*": ["utils/*"],
+      "@/styles/*": ["styles/*"],
       "@/queries/*": ["queries/*"],
       "@/services/*": ["services/*"],
       "@/components/*": ["components/*"],

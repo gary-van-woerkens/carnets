@@ -30,14 +30,13 @@ const Posts = (): JSX.Element => {
   }
 
   return (
-    <>
-      <div>Posts</div>
+    <div className="posts">
       {isAuthorized(String(slug)) && (
         <Link href={`/team/${slug}/post`}>
           <a>Add</a>
         </Link>
       )}
-      <ul>
+      <ul className="list">
         {posts &&
           posts.map((post, i) => (
             <li key={i}>
@@ -49,7 +48,7 @@ const Posts = (): JSX.Element => {
             </li>
           ))}
       </ul>
-    </>
+    </div>
   )
 }
 
