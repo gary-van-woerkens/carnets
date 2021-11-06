@@ -5,18 +5,20 @@ import Auth from "@/components/auth"
 
 const Header = () => (
   <header>
-    <div className="logo">République Française</div>
-    <div className="title">
-      <h1>Carnets</h1>
-      <p>Carnets de bord des produits @SocialGouv</p>
+    <div>
+      <div className="logo">République Française</div>
+      <div className="title">
+        <h1>Carnets</h1>
+        <p>Carnets de bord des produits @SocialGouv</p>
+      </div>
+      <nav>
+        <Link href="/stat">
+          <a>Statistiques</a>
+        </Link>
+        <Auth />
+        <User />
+      </nav>
     </div>
-    <nav>
-      <Link href="/stat">
-        <a>Statistiques</a>
-      </Link>
-      <Auth />
-      <User />
-    </nav>
   </header>
 )
 

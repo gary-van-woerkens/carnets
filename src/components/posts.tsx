@@ -30,15 +30,17 @@ const Posts = (): JSX.Element => {
   }
 
   return (
-    <div className="posts">
+    <section className="posts">
       {isAuthorized(String(slug)) && (
         <Link href={`/team/${slug}/post`}>
           <a>Add</a>
         </Link>
       )}
+      {/* <ul className="list md:masonry before:box-inherit after:box-inherit"> */}
       <ul className="list">
         {posts &&
           posts.map((post, i) => (
+            // <li key={i} className="break-inside">
             <li key={i}>
               <Post
                 {...post}
@@ -48,7 +50,7 @@ const Posts = (): JSX.Element => {
             </li>
           ))}
       </ul>
-    </div>
+    </section>
   )
 }
 

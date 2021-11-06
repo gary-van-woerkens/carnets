@@ -1,3 +1,5 @@
+const plugin = require("tailwindcss/plugin")
+
 const colors = {
   info: "#0762c8",
   focus: "#2a7ffe",
@@ -28,6 +30,29 @@ const colors = {
   },
 }
 
+const columnCountPlugin = plugin(({ addUtilities }) => {
+  const utilities = {
+    ".col-count-1": {
+      "column-count": 1,
+      "column-gap": "2rem",
+    },
+    ".col-count-2": {
+      "column-count": 2,
+      "column-gap": "2rem",
+    },
+    ".col-count-3": {
+      "column-count": 3,
+      "column-gap": "2rem",
+    },
+    ".col-count-4": {
+      "column-count": 4,
+      "column-gap": "2rem",
+    },
+  }
+
+  addUtilities(utilities, ["responsive"])
+})
+
 module.exports = {
   purge: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -51,8 +76,9 @@ module.exports = {
   },
   variants: {
     extend: {
+      cursor: ["disabled"],
       backgroundColor: ["odd"],
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [require("@tailwindcss/typography"), columnCountPlugin],
 }

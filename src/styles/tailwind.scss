@@ -23,19 +23,11 @@
   }
 
   button {
-    cursor: pointer;
+    @apply cursor-pointer disabled:cursor-default;
   }
 
   #__next { /* stylelint-disable-line */
     @apply flex flex-col;
-  }
-
-  main {
-    @apply flex overflow-auto p-10;
-  }
-
-  section {
-    @apply container pl-10;
   }
 
   @font-face {

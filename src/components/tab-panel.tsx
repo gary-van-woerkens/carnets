@@ -1,16 +1,20 @@
 import { cloneElement, useState } from "react"
 
-const Tab = ({
+export const Tab = ({
   children,
   selected,
-  handleClick,
+  disabled = false,
+  handleClick = () => {},
 }: {
   selected?: boolean
-  children: JSX.Element[]
-  handleClick: () => void
+  disabled?: boolean
+  handleClick?: () => void
+  children: string | JSX.Element | JSX.Element[]
 }) => (
   <div className={`tab${selected ? " selected" : ""}`}>
-    <button onClick={handleClick}>{children}</button>
+    <button onClick={handleClick} disabled={disabled}>
+      {children}
+    </button>
   </div>
 )
 
@@ -24,15 +28,12 @@ export const Tabs = ({
   setSelectedIndex?: (index: number) => void
 }) => (
   <div className="tabs">
-    {children.map((child, i) => (
-      <Tab
-        key={i}
-        selected={i === selectedIndex}
-        handleClick={() => setSelectedIndex(i)}
-      >
-        {[child]}
-      </Tab>
-    ))}
+    {children.map((child, i) =>
+      cloneElement(child, {
+        selected: i === selectedIndex,
+        handleClick: () => setSelectedIndex(i),
+      })
+    )}
   </div>
 )
 

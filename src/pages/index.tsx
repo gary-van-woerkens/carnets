@@ -4,13 +4,13 @@ import Teams from "@/components/teams"
 
 const HomePage: NextPage = () => {
   return (
-    <main>
-      <aside>
-        <Teams />
-      </aside>
-      <section>
+    <main className="bg-beige">
+      <div className="flex container mx-auto py-10">
+        <aside>
+          <Teams />
+        </aside>
         <Posts />
-      </section>
+      </div>
     </main>
   )
 }

@@ -3,7 +3,7 @@ import { format } from "date-fns"
 import ReactMarkdown from "react-markdown"
 
 import type { Post as PostInterface } from "@/types/index"
-import TabPanel, { Tabs, Panels } from "@/components/tab-panel"
+import TabPanel, { Tab, Tabs, Panels } from "@/components/tab-panel"
 
 const Post = ({
   id,
@@ -30,13 +30,13 @@ const Post = ({
       </div>
       <TabPanel>
         <Tabs>
-          <span>Piorités</span>
-          <span>Besoins</span>
-          <span>Échéances</span>
+          <Tab disabled={!priorities.length}>Piorités</Tab>
+          <Tab disabled={!needs.length}>Besoins</Tab>
+          <Tab disabled={!term.length}>Échéances</Tab>
         </Tabs>
         <Panels>
-          <ReactMarkdown>{priorities}</ReactMarkdown>
-          <ReactMarkdown>{needs}</ReactMarkdown>
+          <ReactMarkdown className="prose">{priorities}</ReactMarkdown>
+          <ReactMarkdown className="prose">{needs}</ReactMarkdown>
           <ReactMarkdown className="prose">{term}</ReactMarkdown>
         </Panels>
       </TabPanel>
