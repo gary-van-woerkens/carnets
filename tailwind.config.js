@@ -80,7 +80,10 @@ module.exports = {
   variants: {
     extend: {
       cursor: ["disabled"],
-      backgroundColor: ["odd"],
+      borderWidth: ["last"],
+      padding: ["first"],
+      margin: ["last"],
+      backgroundColor: ["odd", "even"],
     },
   },
   plugins: [require("@tailwindcss/typography"), columnCountPlugin],

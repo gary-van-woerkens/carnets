@@ -1,0 +1,10 @@
+.legal {
+  @apply container mx-auto py-10;
+
+  h2,
+  h3,
+  p,
+  address {
+    @apply pb-5;
+  }
+}

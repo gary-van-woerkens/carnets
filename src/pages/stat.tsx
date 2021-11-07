@@ -4,10 +4,16 @@ import Statuses from "@/components/statuses"
 
 const StatPage: NextPage = () => {
   return (
-    <div>
-      <Chart />
-      <Statuses />
-    </div>
+    <main className="container mx-auto">
+      <section className="p-10">
+        <h2 className="pb-10">Nombre de publications par semaine</h2>
+        <Chart />
+      </section>
+      <section className="p-10">
+        <h2 className="pb-10">Statuts des produits</h2>
+        <Statuses />
+      </section>
+    </main>
   )
 }
 

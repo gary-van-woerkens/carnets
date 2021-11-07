@@ -18,12 +18,40 @@
     @apply text-lg font-bold;
   }
 
+  h3 {
+    @apply font-bold;
+  }
+
   a {
     @apply text-blue-500;
   }
 
   button {
     @apply cursor-pointer disabled:cursor-default;
+  }
+
+  table {
+    @apply table-fixed border-collapse w-full;
+
+    thead {
+      tr {
+        @apply bg-beige;
+
+        th {
+          @apply p-2 border-b-2 border-gray-600 text-gray-700;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        @apply even:bg-beige;
+      }
+    }
+
+    td {
+      @apply border-r last:border-0 p-2;
+    }
   }
 
   #__next { /* stylelint-disable-line */
