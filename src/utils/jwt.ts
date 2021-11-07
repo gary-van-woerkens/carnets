@@ -10,8 +10,6 @@ export function getJwt(role: Role = "anonymous", teams: string[] = []): string {
 
   const teamsValue = `{${teams.map((team) => `"${team}"`).join(",")}}`
 
-  console.log("teamsValue", teamsValue)
-
   const claim = {
     "https://hasura.io/jwt/claims": {
       "x-hasura-default-role": role,

@@ -3,7 +3,6 @@ import { useEffect } from "react"
 
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
-import { Post, Request } from "@/types/index"
 import {
   getPost,
   updatePost as updatePostQuery,

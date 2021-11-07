@@ -16,16 +16,18 @@ const Statuses = () => {
       </thead>
       <tbody>
         {data &&
-          data.map(({ team_slug: slug, mood, last_post, kpis_count }, i) => (
-            <tr key={i}>
-              <td>{slug}</td>
-              <td>{mood}</td>
-              <td className="text-right">
-                {format(new Date(last_post), "dd-MM-yyyy")}
-              </td>
-              <td className="text-right">{kpis_count}</td>
-            </tr>
-          ))}
+          data.map(
+            ({ team_slug: slug, mood, last_post, kpis_count }, i: number) => (
+              <tr key={i}>
+                <td>{slug}</td>
+                <td>{mood}</td>
+                <td className="text-right">
+                  {format(new Date(last_post), "dd-MM-yyyy")}
+                </td>
+                <td className="text-right">{kpis_count}</td>
+              </tr>
+            )
+          )}
       </tbody>
     </table>
   )

@@ -1,9 +1,8 @@
 import { useRouter } from "next/router"
 
-import { Post } from "@/types/index"
 import usePost from "@/services/post"
 
-const PostForm = (): JSX.Element => {
+const PostForm = () => {
   const router = useRouter()
 
   const {

@@ -30,6 +30,7 @@ export const Tabs = ({
   <div className="tabs">
     {children.map((child, i) =>
       cloneElement(child, {
+        key: i,
         selected: i === selectedIndex,
         handleClick: () => setSelectedIndex(i),
       })
@@ -68,8 +69,8 @@ const TabPanel = ({ children }: { children: JSX.Element[] }) => {
 
   return (
     <div className="tab-panel">
-      {children.map((child) =>
-        cloneElement(child, { selectedIndex, setSelectedIndex })
+      {children.map((child, i) =>
+        cloneElement(child, { key: i, selectedIndex, setSelectedIndex })
       )}
     </div>
   )

@@ -6,13 +6,17 @@ import useStat from "@/services/stat"
 const Chart = (): JSX.Element => {
   const [{ posts_stat: data }] = useStat()
 
-  const labels = data && data.map(({ week, year }) => `${week}-${year}`)
+  const labels =
+    data &&
+    data.map(
+      ({ week, year }: { week: number; year: number }) => `${week}-${year}`
+    )
 
   const datasets = [
     {
       type: "bar",
       label: "Nombre de publications",
-      data: data && data.map(({ count }) => count),
+      data: data && data.map(({ count }: { count: number }) => count),
     },
   ] as ChartDataset[]
 

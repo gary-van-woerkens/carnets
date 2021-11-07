@@ -2,7 +2,6 @@ import NextAuth from "next-auth"
 import Providers from "next-auth/providers"
 
 import { getJwt } from "@/utils/jwt"
-import { Team } from "@/types/index"
 import fetcher from "@/utils/fetcher"
 import { getUserTeams } from "@/queries/index"
 

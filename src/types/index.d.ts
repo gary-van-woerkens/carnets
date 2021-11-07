@@ -1,3 +1,9 @@
+interface TeamStatus {
+  mood: string
+  kpis_count: number
+  last_post: string
+  team_slug: string
+}
 interface Stat {
   posts_stat: [
     {
@@ -6,37 +12,30 @@ interface Stat {
       year: number
     }
   ]
-  teams_status: [
-    {
-      mood: string
-      kpis_count: number
-      last_post: string
-      team_slug: string
-    }
-  ]
+  teams_status: TeamStatus[]
 }
 
-export interface Request {
+interface Request {
   url: string
   query: string
   token?: string
   params?: Record<string, unknown>
 }
 
-export interface Team {
+interface Team {
   name: string
   slug: string
   avatarUrl: string
   description: string
 }
 
-export interface Kpi {
+interface Kpi {
   id: string
   name: string
   value: string
 }
 
-export interface Post {
+interface Post {
   id?: string
   team?: Team
   kpis?: [Kpi]

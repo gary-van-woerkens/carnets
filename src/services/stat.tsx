@@ -2,7 +2,6 @@ import useSWRImmutable from "swr/immutable"
 
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
-import type { Stat } from "@/types/index"
 import { getStat } from "@/queries/index"
 
 const useStat = (): [Stat] => {

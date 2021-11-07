@@ -13,7 +13,10 @@ const useTeam = (slug: string | string[] | undefined): [Team | undefined] => {
 
   const fetcher = (slug: string) => teams.find((team) => team.slug === slug)
 
-  const { data } = useSWR(teams.length && slug ? [slug, "team"] : null, fetcher)
+  const { data } = useSWR(
+    teams?.length && slug ? [slug, "team"] : null,
+    fetcher
+  )
 
   return [data]
 }

@@ -2,7 +2,6 @@ import Link from "next/link"
 import { format } from "date-fns"
 import ReactMarkdown from "react-markdown"
 
-import type { Post as PostInterface } from "@/types/index"
 import TabPanel, { Tab, Tabs, Panels } from "@/components/tab-panel"
 
 const Post = ({
@@ -17,7 +16,7 @@ const Post = ({
   priorities,
   editable,
   handlePostDeletion,
-}: PostInterface): JSX.Element => {
+}: Post): JSX.Element => {
   return (
     <article className="post">
       <div className="flex justify-between">

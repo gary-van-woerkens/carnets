@@ -1,14 +1,13 @@
-import useSWRImmutable from "swr/immutable"
+import useSWR from "swr/immutable"
 
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
-import type { Post } from "@/types/index"
 import { getLastPosts, getTeamPosts } from "@/queries/index"
 
-const usePosts = (slug: string | string[] | undefined): Post[][] => {
+const usePosts = (slug?: string | string[]): Post[][] => {
   const [token] = useToken()
 
-  const { data: { posts: data } = {} } = useSWRImmutable(
+  const { data: { posts: data } = {} } = useSWR(
     token ? [slug, slug ? getTeamPosts : getLastPosts, token] : null,
     (slug, query, token) => fetcher(query, token, slug ? { slug } : undefined)
   )

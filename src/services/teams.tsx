@@ -1,16 +1,17 @@
-import useSWRImmutable from "swr/immutable"
+import useSWR from "swr"
 
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
-import type { Team } from "@/types/index"
 import { getTeams } from "@/queries/index"
 
 const useTeams = (): Team[][] => {
   const [token] = useToken()
 
   const {
-    data: { organization: { teams: { nodes: teams = [] } = {} } = {} } = {},
-  } = useSWRImmutable(token ? [getTeams, token] : null, fetcher)
+    data: {
+      organization: { teams: { nodes: teams = undefined } = {} } = {},
+    } = {},
+  } = useSWR(token ? [getTeams, token] : null, fetcher)
 
   return [teams]
 }

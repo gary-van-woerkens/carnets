@@ -4,7 +4,15 @@
 
 @layer base {
   body {
-    @apply flex flex-col text-gray-700 text-base font-normal font-sans antialiased;
+    @apply
+      flex
+      flex-col
+      text-base
+      font-sans
+      font-normal
+      antialiased
+      min-h-screen
+      text-gray-700;
 
     text-size-adjust: 100%;
     text-rendering: optimizeSpeed;
@@ -55,7 +63,7 @@
   }
 
   #__next { /* stylelint-disable-line */
-    @apply flex flex-col;
+    @apply flex flex-col flex-1;
   }
 
   @font-face {

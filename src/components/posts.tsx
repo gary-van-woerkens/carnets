@@ -8,14 +8,14 @@ import usePosts from "@/services/posts"
 import { deletePost as deletePostQuery } from "../queries"
 import useToken from "@/services/token"
 
-const Posts = (): JSX.Element => {
+const Posts = ({ posts }: { posts: Post[] }) => {
   const {
     query: { slug },
   } = useRouter()
 
   const [token] = useToken()
   const [session] = useSession()
-  const [posts] = usePosts(slug)
+  // const [posts] = usePosts(slug)
 
   const isAuthorized = (slug: string) =>
     session?.user.role === "admin" || session?.user.teams.includes(slug)

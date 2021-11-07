@@ -1,4 +1,3 @@
-import { Request } from "@/types/index"
 import { GraphQLClient } from "graphql-request"
 
 export const fetcher = <T>(url: string): Promise<T> =>
