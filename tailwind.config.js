@@ -64,13 +64,16 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      spectral: ["Spectral", "serif"],
+    },
     extend: {
       textColor: colors,
       borderColor: colors,
       backgroundColor: colors,
       fontFamily: {
-        bold: ["Marianne Bold", "arial", "sans-serif"],
-        sans: ["Marianne Regular", "arial", "sans-serif"],
+        bold: ["Marianne", "arial", "sans-serif"],
+        sans: ["Marianne", "arial", "sans-serif"],
       },
     },
   },

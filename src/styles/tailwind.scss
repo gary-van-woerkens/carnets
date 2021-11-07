@@ -34,7 +34,7 @@
     font-style: normal;
     font-display: swap;
     font-weight: normal;
-    font-family: "Marianne Regular";
+    font-family: Marianne;
     src: local("Marianne Regular"), url("/fonts/Marianne/Marianne-Regular.woff2") format("woff2");
   }
 
@@ -42,7 +42,23 @@
     font-weight: bold;
     font-style: normal;
     font-display: swap;
-    font-family: "Marianne Bold";
+    font-family: Marianne;
     src: local("Marianne Bold"), url("/fonts/Marianne/Marianne-Bold.woff2") format("woff2");
+  }
+
+  @font-face {
+    font-style: normal;
+    font-display: swap;
+    font-weight: normal;
+    font-family: Spectral;
+    src: local("Spectral"), url("/fonts/Spectral/Spectral-Regular.ttf") format("truetype");
+  }
+
+  @font-face {
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+    font-family: Spectral;
+    src: local("Spectral"), url("/fonts/Spectral/Spectral-Bold.ttf") format("truetype");
   }
 }

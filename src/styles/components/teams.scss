@@ -1,11 +1,11 @@
 ul.teams {
-  @apply border-r border-gray-400 pr-5 mr-8;
+  @apply border-r border-gray-300 pr-6 mr-8;
 
   li {
-    @apply whitespace-nowrap hover:bg-gray-300 py-2 px-2;
+    @apply flex whitespace-nowrap;
 
     a {
-      @apply text-gray-700;
+      @apply flex-1 p-2 text-gray-700 hover:bg-gray-300;
     }
   }
 }

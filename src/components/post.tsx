@@ -35,9 +35,9 @@ const Post = ({
           <Tab disabled={!term.length}>Échéances</Tab>
         </Tabs>
         <Panels>
-          <ReactMarkdown className="prose">{priorities}</ReactMarkdown>
-          <ReactMarkdown className="prose">{needs}</ReactMarkdown>
-          <ReactMarkdown className="prose">{term}</ReactMarkdown>
+          <ReactMarkdown className="prose prose-sm">{priorities}</ReactMarkdown>
+          <ReactMarkdown className="prose prose-sm">{needs}</ReactMarkdown>
+          <ReactMarkdown className="prose prose-sm">{term}</ReactMarkdown>
         </Panels>
       </TabPanel>
       {editable && (

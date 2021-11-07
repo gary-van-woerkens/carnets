@@ -5,7 +5,7 @@
     @apply xl:col-count-2;
 
     & > li {
-      @apply mb-8;
+      @apply mb-8 border-gray-100 border;
 
       break-inside: avoid;
       page-break-inside: avoid;
