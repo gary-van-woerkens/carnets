@@ -43,9 +43,36 @@ export const getPosts = async (slug?: string) => {
   return posts
 }
 
-export const TeamsLoader = () => {
+const useTeams = () => {
   const [token] = useToken()
-  const { data: teams } = useSWR("teams", () => fetcher(getTeamsQuery, token))
+  const { data, error, isValidating } = useSWR("teams", () =>
+    token ? fetcher(getTeamsQuery, token) : Promise.resolve(undefined)
+  )
+
+  if (error) throw new Error(`${error} (${token})`)
+  return Array.isArray(data) ? data : data?.organization.teams.nodes
+}
+
+const usePosts = (slug?: string) => {
+  const [token] = useToken()
+  const { data, error, isValidating } = useSWR(
+    slug ? `posts/${slug}` : "posts",
+    () =>
+      token
+        ? fetcher(
+            slug ? getTeamPostsQuery : getLastPostsQuery,
+            token,
+            slug && { slug }
+          )
+        : Promise.resolve(undefined)
+  )
+
+  if (error) throw new Error(`${error} (${token})`)
+  return Array.isArray(data) ? data : data?.posts
+}
+
+export const TeamsLoader = () => {
+  const teams = useTeams()
 
   if (!teams) return <Loader />
   if (!teams.length) return <div>Aucune équipe pour le moment...</div>
@@ -54,10 +81,7 @@ export const TeamsLoader = () => {
 }
 
 export const PostsLoader = ({ slug }: { slug?: string }) => {
-  const [token] = useToken()
-  const { data: posts } = useSWR(slug ? `posts/${slug}` : "posts", () =>
-    fetcher(getLastPostsQuery, token, slug && { slug })
-  )
+  const posts = usePosts(slug)
 
   if (!posts) return <Loader size="lg" />
   if (!posts.length) return <div>Aucune publication pour le moment...</div>
@@ -66,13 +90,8 @@ export const PostsLoader = ({ slug }: { slug?: string }) => {
 }
 
 export const TeamLoader = ({ slug }: { slug?: string }) => {
-  const [token] = useToken()
-  const { data: teams } = useSWR("teams", () => fetcher(getTeamsQuery, token))
-
-  const { data: team } = useSWR(
-    teams?.length && slug ? `team/${slug}` : null,
-    () => teams.find((team: Team) => team.slug === slug)
-  )
+  const teams = useTeams()
+  const team = teams && teams.find((team: Team) => team.slug === slug)
 
   return <Team team={team} />
 }
