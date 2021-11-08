@@ -21,7 +21,7 @@ const Page = ({
 }) => (
   <div className="flex flex-1 container mx-auto py-10">
     <SWRConfig value={{ fallback }}>
-      <aside className="flex min-h-full max-h-screen sticky top-0 w-60 border-r border-gray-300 mr-8">
+      <aside className="flex min-h-full max-h-screen sticky top-0 w-52 border-r border-gray-300 mr-8">
         <TeamsLoader />
       </aside>
       <main className="flex flex-1">

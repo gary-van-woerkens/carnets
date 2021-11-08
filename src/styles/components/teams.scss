@@ -5,5 +5,11 @@ ul.teams {
     a {
       @apply flex-1 p-2 text-gray-700 hover:bg-gray-300;
     }
+
+    &.selected {
+      a {
+        @apply bg-gray-300 font-bold;
+      }
+    }
   }
 }
