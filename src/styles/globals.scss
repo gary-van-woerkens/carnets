@@ -7,3 +7,18 @@
 @use "./components/footer.scss";
 @use "./components/legal.scss";
 @use "./components/loader.scss";
+
+button,
+a.btn {
+  &.primary {
+    @apply
+      px-4
+      py-2
+      text-white
+      shadow
+      font-bold
+      bg-blue-500
+      hover:bg-blue-400
+      active:bg-blue-300;
+  }
+}

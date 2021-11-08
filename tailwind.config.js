@@ -16,6 +16,8 @@ const colors = {
     100: "#f5f5ff",
   },
   blue: {
+    300: "#2929ff",
+    400: "#0000dd",
     500: "#000091",
   },
   gray: {
@@ -83,7 +85,7 @@ module.exports = {
       borderWidth: ["last"],
       padding: ["first"],
       margin: ["last"],
-      backgroundColor: ["odd", "even"],
+      backgroundColor: ["odd", "even", "active"],
     },
   },
   plugins: [require("@tailwindcss/typography"), columnCountPlugin],

@@ -1,14 +1,17 @@
 import { useSession } from "next-auth/client"
 
-const User = (): JSX.Element => {
+const User = () => {
   const [session] = useSession()
 
   return (
     <>
       {session?.user && (
         <div>
-          <div style={{ backgroundImage: `url(${session.user.image})` }}></div>
-          <div>{session.user.name}</div>
+          <div
+            title={session.user.name}
+            className="w-8 h-8 bg-cover rounded-full shadow"
+            style={{ backgroundImage: `url(${session.user.image})` }}
+          ></div>
         </div>
       )}
     </>
