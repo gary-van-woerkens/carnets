@@ -81,10 +81,10 @@ module.exports = {
   },
   variants: {
     extend: {
+      margin: ["last"],
+      padding: ["first"],
       cursor: ["disabled"],
       borderWidth: ["last"],
-      padding: ["first"],
-      margin: ["last"],
       backgroundColor: ["odd", "even", "active"],
     },
   },
