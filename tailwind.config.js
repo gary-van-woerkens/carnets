@@ -83,6 +83,7 @@ module.exports = {
     extend: {
       margin: ["last"],
       padding: ["first"],
+      boxShadow: ["active"],
       cursor: ["disabled"],
       borderWidth: ["last"],
       backgroundColor: ["odd", "even", "active"],

@@ -10,10 +10,15 @@
       w-40
       border
       border-gray-100
-      p-8 shadow
+      p-8
+      shadow-lg
       bg-gray-100
       cursor-pointer
-      hover:shadow-sm
+      hover:shadow
       hover:bg-white;
+
+    &.selected {
+      @apply bg-white shadow;
+    }
   }
 }

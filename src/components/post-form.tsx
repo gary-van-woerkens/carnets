@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import ReactMarkdown from "react-markdown"
 
@@ -7,14 +8,135 @@ import useSWR from "swr"
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
 import { getPost } from "../queries"
+import Loader from "./loader"
 
-const MoodSelector = () => {
+import Wizard from "@/components/wizard"
+import Step from "@/components/wizard/step"
+
+const defaultValues = {
+  // team: "",
+  // kpis: "",
+  // author: "",
+  // created_at: "",
+  // team_slug: "",
+  mood: "good",
+  term: `### Nos prochaines échéances
+
+- Mise en production de la version \`1.42.0\`
+- Présentation FAST
+  `,
+  needs: `### Nos besoins immédiats
+
+#### Besoins fonctionnels
+- besoin numéro 1
+- besoin numéro 2
+
+#### Besoins techniques
+- besoin numéro 1
+- besoin numéro 2`,
+  priorities: `### Exemple de titre
+
+Un petit texte d'introduction. Lorem ipsum dolor sit amet. Est quidem sint sed accusamus molestias ea deleniti beatae. Quo laboriosam sequi qui dolor nisi et soluta velit et asperiores totam qui labore temporibus.
+
+Un exemple de liste:
+- élément 1
+- élément 2
+- sous élément 1
+- sous élément 2`,
+}
+
+const Success = ({ slug }: { slug: string }) => (
+  <div className="flex flex-1 items-center justify-center">
+    <div className="text-9xl text-success relative -top-4">✓</div>
+    <div>
+      <p>Votre publication a été enregitrée avec succès.</p>
+      <p>
+        Retrouvez cette publication en vous rendant sur{" "}
+        <Link href={`/team/${slug}`}>
+          <a>la page dédiée à l&apos;équipe</a>
+        </Link>
+        .
+      </p>
+    </div>
+  </div>
+)
+
+const Mood = ({
+  post,
+  handleChange,
+}: {
+  post: Post
+  handleChange: (name: string, value: string) => void
+}) => (
+  <>
+    <h2 className="text-center py-10">
+      L&apos;état d&apos;esprit de l&apos;équipe:
+    </h2>
+    <MoodSelector value={post.mood} handleChange={handleChange} />
+  </>
+)
+
+const Term = ({
+  post,
+  handleChange,
+}: {
+  post: Post
+  handleChange: (name: string, value: string) => void
+}) => (
+  <>
+    <h2 className="text-center py-10">Vos prochaines échéances:</h2>
+    <Editor name="term" value={post.term} handleChange={handleChange} />
+  </>
+)
+
+const Needs = ({
+  post,
+  handleChange,
+}: {
+  post: Post
+  handleChange: (name: string, value: string) => void
+}) => (
+  <>
+    <h2 className="text-center py-10">Vos besoins immédiats:</h2>
+    <Editor name="needs" value={post.needs} handleChange={handleChange} />
+  </>
+)
+
+const Priorities = ({
+  post,
+  handleChange,
+}: {
+  post: Post
+  handleChange: (name: string, value: string) => void
+}) => (
+  <>
+    <h2 className="text-center py-10">Vos priorités de la semaine:</h2>
+    <Editor
+      name="priorities"
+      value={post.priorities}
+      handleChange={handleChange}
+    />
+  </>
+)
+
+const MoodSelector = ({
+  value,
+  handleChange,
+}: {
+  value: string
+  handleChange: (name: string, value: string) => void
+}) => {
   const moods = ["bad", "average", "good"]
-  const [selectedMood, setSelectedMood] = useState("good")
+  console.log("mood ==>", value)
+
   return (
     <div className="mood-selector">
       {moods.map((mood, i) => (
-        <div key={i} onClick={() => setSelectedMood(mood)} className="mood">
+        <div
+          key={i}
+          onClick={() => handleChange("mood", mood)}
+          className={`mood${mood === value ? " selected" : ""}`}
+        >
           {mood}
         </div>
       ))}
@@ -22,41 +144,52 @@ const MoodSelector = () => {
   )
 }
 
-const Editor = ({ value }: { value: string }) => {
-  const [text, setText] = useState(value || "")
-
-  const handleChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = target
-    setText(value)
-  }
-
-  return (
-    <div className="flex flex-col flex-1 pb-10">
-      <div className="flex flex-1">
-        <textarea
-          className="flex-1 p-5 border rounded mr-5 bg-beige"
-          value={text}
-          onChange={handleChange}
-        ></textarea>
-        <div className="flex-1 p-5 border border-gray-100 shadow-lg z-10 bg-white">
-          <ReactMarkdown className="prose prose-sm">{text}</ReactMarkdown>
-        </div>
+const Editor = ({
+  name,
+  value,
+  handleChange,
+}: {
+  name: string
+  value: string
+  handleChange: (name: string, value: string) => void
+}) => (
+  <div className="flex flex-col flex-1 pb-10">
+    <div className="flex flex-1">
+      <textarea
+        className="flex-1 p-5 border rounded mr-5 bg-beige"
+        value={value}
+        onChange={(e) => handleChange(name, e.target.value)}
+      ></textarea>
+      <div className="flex-1 p-5 border border-gray-100 shadow-lg z-10 bg-white">
+        <ReactMarkdown className="prose prose-sm">{value}</ReactMarkdown>
       </div>
     </div>
-  )
-}
+  </div>
+)
 
-const Wizard = ({ post }: { post: Post }) => {
+const Wizardx = ({
+  post,
+  slug,
+  success,
+  onComplete,
+  handleChange,
+}: {
+  post: Post
+  slug: string
+  success: boolean
+  onComplete: () => void
+  handleChange: (name: string, value: string) => void
+}) => {
   const steps = [1, 2, 3, 4]
   const [activeStep, setActiveStep] = useState(1)
 
+  const isLastStep = () => activeStep === steps.length
+
   const handleClick = async () => {
     console.log("activeStep", activeStep, steps.length)
-    const nextStep = activeStep + 1
-    if (nextStep <= steps.length) {
-      setActiveStep(nextStep)
-    } else {
-      console.log("IT'S OVER!")
+    setActiveStep(activeStep + 1)
+    if (isLastStep()) {
+      onComplete()
     }
   }
 
@@ -83,149 +216,123 @@ const Wizard = ({ post }: { post: Post }) => {
         </div>
       </div>
       {activeStep === 1 && (
-        <>
-          <h2 className="text-center py-10">Vos priorités de la semaine:</h2>
-          <Editor value={post?.priorities} />
-        </>
+        <Priorities post={post} handleChange={handleChange} />
       )}
-      {activeStep === 2 && (
-        <>
-          <h2 className="text-center py-10">Vos besoins immédiats:</h2>
-          <Editor value={post?.needs} />
-        </>
+      {activeStep === 2 && <Needs post={post} handleChange={handleChange} />}
+      {activeStep === 3 && <Term post={post} handleChange={handleChange} />}
+      {activeStep === 4 && <Mood post={post} handleChange={handleChange} />}
+      {!success && activeStep === 5 && <Loader size="lg" />}
+      {activeStep <= steps.length && (
+        <div className="flex justify-end">
+          <button
+            className="primary"
+            onClick={(e) => {
+              e.preventDefault()
+              handleClick()
+            }}
+          >
+            {isLastStep() ? "Publier" : "Suivant"}
+          </button>
+        </div>
       )}
-      {activeStep === 3 && (
-        <>
-          <h2 className="text-center py-10">Vos prochaines échéances:</h2>
-          <Editor value={post?.term} />
-        </>
-      )}
-      {activeStep === 4 && (
-        <>
-          <h2 className="text-center py-10">
-            L&apos;état d&apos;esprit de l&apos;équipe:
-          </h2>
-          <MoodSelector />
-        </>
-      )}
-      <button
-        className="primary"
-        onClick={(e) => {
-          e.preventDefault()
-          handleClick()
-        }}
-      >
-        Suivant
-      </button>
+      {success && <Success slug={slug} />}
     </>
   )
 }
 
 const PostForm = () => {
   const router = useRouter()
+  const [token] = useToken()
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [activeStep, setActiveStep] = useState(0)
 
   const {
     query: { slug, id },
   } = router
 
-  const defaultValues = {
-    team: "",
-    kpis: "",
-    mood: "",
-    term: `### Nos prochaines échéances
-
-- Mise en production de la version \`1.42.0\`
-- Présentation FAST
-    `,
-    needs: `### Nos besoins immédiats
-
-#### Besoins fonctionnels
-- besoin numéro 1
-- besoin numéro 2
-
-#### Besoins techniques
-- besoin numéro 1
-- besoin numéro 2`,
-    author: "",
-    created_at: "",
-    team_slug: "",
-    priorities: `### Exemple de titre
-
-Un petit texte d'introduction. Lorem ipsum dolor sit amet. Est quidem sint sed accusamus molestias ea deleniti beatae. Quo laboriosam sequi qui dolor nisi et soluta velit et asperiores totam qui labore temporibus.
-
-Un exemple de liste:
-- élément 1
-- élément 2
-  - sous élément 1
-  - sous élément 2`,
-  }
-
-  // const [, id] = publish as [string, string | undefined]
-  // const id = undefined
-
-  // const [post, setPost, updatePost, createPost] = usePost(id ? id[0] : undefined)
-  // const [post, setPost, updatePost, createPost] = usePost(
-  //   id ? id[0] : undefined
-  // )
-  const [token] = useToken()
-  const { data: post } = useSWR(id ? `post/${id[0]}` : null, () =>
+  const { data } = useSWR(id ? `post/${id[0]}` : null, () =>
     fetcher(getPost, token, id && id[0] ? { id: id[0] } : undefined)
   )
-  console.log("POST", post)
 
-  // const submit = () =>
-  //   id ? updatePost(post) : createPost({ ...post, team_slug: slug } as Post)
+  const [post, setPost] = useState(data || defaultValues)
 
-  // const handleTextareaChange = ({
-  //   target,
-  // }: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   const { name, value } = target
-  //   setPost({ ...post, [name]: value })
+  // const handleSubmit = async () => {
+  //   console.log("ON SUBMIT", post)
+  //   setSuccess(true)
   // }
 
-  // const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = target
-  //   setPost({ ...post, [name]: value })
+  const handleChange = (name: string, value: string) =>
+    setPost({ ...post, [name]: value })
+
+  // const handleClick = () => {
+  //   setActiveStep(activeStep + 1)
   // }
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault()
-  //   await submit()
-  //   router.push({ pathname: "/team/[slug]", query: { slug } })
-  // }
+  const handleComplete = () => {
+    // setLoading(true)
+    // fetcher(createPostQuery, token, { post })
+    // setTimeout(() => {
+    //   setSuccess(true)
+    // }, 5000)
+  }
 
   return (
     <form className="flex flex-col flex-1">
-      <Wizard post={post || defaultValues} />
-      {/* <input onChange={handleChange} name="mood" value={post?.mood || ""} /> */}
-      {/* <input
-        onChange={handleChange}
-        name="created_at"
-        value={`${new Date()}`}
+      <Wizard
+        error={false}
+        success={false}
+        loading={false}
+        onComplete={handleComplete}
+      >
+        <Step>
+          <h2 className="text-center pb-10">Vos priorités de la semaine:</h2>
+          <Editor
+            name="priorities"
+            value={post.priorities}
+            handleChange={handleChange}
+          />
+        </Step>
+        <Step>
+          <h2 className="text-center pb-10">Vos besoins immédiats:</h2>
+          <Editor name="needs" value={post.needs} handleChange={handleChange} />
+        </Step>
+        <Step>
+          <h2 className="text-center py-10">Vos prochaines échéances:</h2>
+          <Editor name="term" value={post.term} handleChange={handleChange} />
+        </Step>
+        <Step>
+          <h2 className="text-center py-10">
+            L&apos;état d&apos;esprit de l&apos;équipe:
+          </h2>
+          <MoodSelector value={post.mood} handleChange={handleChange} />
+        </Step>
+        <Step type="loading">
+          <Loader size="lg" />
+        </Step>
+        <Step type="success">
+          <div className="flex flex-1 items-center justify-center">
+            <div className="text-9xl text-success relative -top-4">✓</div>
+            <div>
+              <p>Votre publication a été enregitrée avec succès.</p>
+              <p>
+                Retrouvez cette publication en vous rendant sur{" "}
+                <Link href={`/team/${slug}`}>
+                  <a>la page dédiée à l&apos;équipe</a>
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        </Step>
+      </Wizard>
+      {/* <Wizard
+        post={post}
+        success={success}
+        slug={String(slug)}
+        onComplete={handleSubmit}
+        handleChange={handleChange}
       /> */}
-      {/* <input onChange={handleChange} name="author" value="John Doe" /> */}
-      {/* <input onChange={handleChange} name="team_slug" value={slug} /> */}
-      {/* <label>Priorités</label> */}
-      {/* <textarea
-        name="priorities"
-        value={post?.priorities || ""}
-        onChange={handleTextareaChange}
-      /> */}
-      {/* <Editor value={post?.priorities} /> */}
-      {/* <label>Besoins</label>
-      <textarea
-        name="needs"
-        value={post?.needs || ""}
-        onChange={handleTextareaChange}
-      />
-      <label>Échéances</label>
-      <textarea
-        name="term"
-        value={post?.term || ""}
-        onChange={handleTextareaChange}
-      /> */}
-      {/* <input name="kpis" value={[{ name: "My kpi", value: 42 }]} /> */}
-      {/* <button type="submit">submit</button> */}
     </form>
   )
 }
