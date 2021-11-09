@@ -16,15 +16,15 @@ const Wizard = ({
   children: JSX.Element[]
 }) => {
   const [activeStep, setActiveStep] = useState(0)
-  const totalSteps = Array.isArray(children) ? children.length : 1
+  const steps = children.filter((child) => child.type.name === "Step")
+  const totalSteps = steps.length
   console.log("totalSteps", totalSteps)
+  // console.log("steps", steps)
 
   useEffect(() => {
     if (activeStep === totalSteps - 1) onComplete()
   }, [activeStep, totalSteps, onComplete])
   children.map((x) => console.log(x.type.name))
-  const steps = children.filter((child) => child.type.name === "Step")
-  console.log("steps", steps)
 
   return (
     <div className="wizard">
