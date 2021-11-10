@@ -1,0 +1,11 @@
+table:
+  name: posts
+  schema: public
+array_relationships:
+- name: kpis
+  using:
+    foreign_key_constraint_on:
+      column: post_id
+      table:
+        name: kpis
+        schema: public
