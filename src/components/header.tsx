@@ -1,7 +1,7 @@
 import Link from "next/link"
 
-import Logo from "@/components/common/logo"
 import Auth from "@/components/auth"
+import Logo from "@/components/common/logo"
 
 const Header = () => (
   <header>

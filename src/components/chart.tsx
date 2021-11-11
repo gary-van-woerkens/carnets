@@ -3,7 +3,7 @@ import type { ChartDataset } from "chart.js"
 
 import useStat from "@/services/stat"
 
-const Chart = (): JSX.Element => {
+const Chart = () => {
   const [{ posts_stat: data }] = useStat()
 
   const labels =

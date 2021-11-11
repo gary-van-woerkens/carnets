@@ -7,26 +7,6 @@ import { getUserTeams } from "@/queries/index"
 
 export default NextAuth({
   providers: [
-    // Providers.Auth0({
-    //   id: "github",
-    //   name: "GitHub",
-    //   type: "oauth",
-    //   version: "2.0",
-    //   scope: "read:user",
-    //   clientId: process.env.GITHUB_ID,
-    //   clientSecret: process.env.GITHUB_SECRET,
-    //   profileUrl: "https://api.github.com/user",
-    //   authorizationUrl: "https://github.com/login/oauth/authorize",
-    //   accessTokenUrl: "https://github.com/login/oauth/access_token",
-    //   profile: (profile) => ({
-    //     teams: [],
-    //     name: profile.name,
-    //     login: profile.login,
-    //     email: profile.email,
-    //     id: String(profile.id),
-    //     image: profile.avatar_url,
-    //   }),
-    // }),
     Providers.GitHub({
       scope: "read:user",
       clientId: process.env.GITHUB_ID,

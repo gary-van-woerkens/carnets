@@ -1,5 +1,6 @@
-import Logo from "@/components/common/logo"
 import Link from "next/link"
+
+import Logo from "@/components/common/logo"
 
 const Footer = () => (
   <footer>

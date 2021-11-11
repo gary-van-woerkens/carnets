@@ -1,25 +1,17 @@
 import Link from "next/link"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/router"
+import { useSession } from "next-auth/client"
 import MarkdownEditor from "@/components/common/markdown-editor"
 
-import usePost from "@/services/post"
 import useSWR from "swr"
+import Loader from "./common/loader"
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
-import { getPost } from "../queries"
-import Loader from "./common/loader"
-import { createPost } from "@/queries/index"
-
-import Wizard, { Steps, Step, Status } from "@/components/common/wizard"
-import { session, useSession } from "next-auth/client"
+import { createPost, getPost } from "@/queries/index"
+import Wizard, { Step, Status } from "@/components/common/wizard"
 
 const defaultValues = {
-  // team: "",
-  // kpis: "",
-  // author: "",
-  // created_at: "",
-  // team_slug: "",
   mood: "good",
   term: `### Nos prochaines échéances
 
@@ -145,88 +137,10 @@ const MoodSelector = ({
   )
 }
 
-// const Wizardx = ({
-//   post,
-//   slug,
-//   success,
-//   onComplete,
-//   handleChange,
-// }: {
-//   post: Post
-//   slug: string
-//   success: boolean
-//   onComplete: () => void
-//   handleChange: (name: string, value: string) => void
-// }) => {
-//   const steps = [1, 2, 3, 4]
-//   const [activeStep, setActiveStep] = useState(1)
-
-//   const isLastStep = () => activeStep === steps.length
-
-//   const handleClick = async () => {
-//     console.log("activeStep", activeStep, steps.length)
-//     setActiveStep(activeStep + 1)
-//     if (isLastStep()) {
-//       onComplete()
-//     }
-//   }
-
-//   return (
-//     <>
-//       <div className="wizard">
-//         <div className="steps">
-//           {steps.map((step, i) => (
-//             <React.Fragment key={i}>
-//               <div
-//                 className={`indicator${step === activeStep ? " active" : ""}${
-//                   i + 1 < activeStep ? " completed" : ""
-//                 }`}
-//               >
-//                 {step}
-//               </div>
-//               {i < steps.length - 1 && (
-//                 <div
-//                   className={`line${i + 1 < activeStep ? " completed" : ""}`}
-//                 ></div>
-//               )}
-//             </React.Fragment>
-//           ))}
-//         </div>
-//       </div>
-//       {activeStep === 1 && (
-//         <Priorities post={post} handleChange={handleChange} />
-//       )}
-//       {activeStep === 2 && <Needs post={post} handleChange={handleChange} />}
-//       {activeStep === 3 && <Term post={post} handleChange={handleChange} />}
-//       {activeStep === 4 && <Mood post={post} handleChange={handleChange} />}
-//       {!success && activeStep === 5 && <Loader size="lg" />}
-//       {activeStep <= steps.length && (
-//         <div className="flex justify-end">
-//           <button
-//             className="primary"
-//             onClick={(e) => {
-//               e.preventDefault()
-//               handleClick()
-//             }}
-//           >
-//             {isLastStep() ? "Publier" : "Suivant"}
-//           </button>
-//         </div>
-//       )}
-//       {success && <Success slug={slug} />}
-//     </>
-//   )
-// }
-
 const PostForm = () => {
   const router = useRouter()
   const [token] = useToken()
   const [session] = useSession()
-  console.log("session", session)
-
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [activeStep, setActiveStep] = useState(0)
   const [status, setStatus] = useState<Status>("steps")
 
   const {
@@ -248,7 +162,7 @@ const PostForm = () => {
       console.log("result", result)
       setStatus("success")
     } catch (error) {
-      setStatus("error")
+      setStatus("failure")
       throw error
     }
   }
@@ -263,7 +177,7 @@ const PostForm = () => {
 
   return (
     <form className="flex flex-col flex-1">
-      <Steps status={status} onComplete={handleComplete}>
+      <Wizard status={status} onComplete={handleComplete}>
         <Step>
           <h2 className="text-center pb-10">Vos priorités de la semaine:</h2>
           <MarkdownEditor
@@ -312,7 +226,7 @@ const PostForm = () => {
             </div>
           </div>
         </Step>
-        <Step type="error">
+        <Step type="failure">
           <div className="flex flex-1 items-center justify-center">
             <div className="text-9xl text-error relative -top-4">❌</div>
             <div>
@@ -330,7 +244,7 @@ const PostForm = () => {
             </div>
           </div>
         </Step>
-      </Steps>
+      </Wizard>
     </form>
   )
 }

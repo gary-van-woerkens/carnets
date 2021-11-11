@@ -3,7 +3,7 @@ import { signIn, signOut, useSession } from "next-auth/client"
 
 import User from "@/components/user"
 
-const Auth = (): JSX.Element => {
+const Auth = () => {
   const [session] = useSession()
 
   return (

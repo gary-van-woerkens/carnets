@@ -14,7 +14,7 @@ const Team = ({ team }: { team: Team }) => {
       session.user.teams.includes(String(query.slug)))
 
   return (
-    <section className="team flex items-center pb-8">
+    <section className="team flex items-center pb-5">
       <div>
         {team?.avatarUrl && (
           <Image
@@ -25,7 +25,7 @@ const Team = ({ team }: { team: Team }) => {
           />
         )}
       </div>
-      <div className="flex-1 px-8">
+      <div className="flex-1 px-5">
         <h2>{team?.name}</h2>
         <div className="font-spectral">{team?.description}</div>
       </div>

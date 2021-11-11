@@ -2,8 +2,8 @@ const Step = ({
   type,
   children,
 }: {
-  type?: "error" | "success" | "loading"
   children: JSX.Element | JSX.Element[]
+  type?: "failure" | "success" | "loading" | "steps"
 }) => {
   return <div className="step">{children}</div>
 }

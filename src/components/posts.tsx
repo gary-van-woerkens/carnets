@@ -1,12 +1,10 @@
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { useSession } from "next-auth/client"
 
 import Post from "@/components/post"
 import fetcher from "@/utils/fetcher"
-import usePosts from "@/services/posts"
-import { deletePost as deletePostQuery } from "../queries"
 import useToken from "@/services/token"
+import { deletePost as deletePostQuery } from "../queries"
 
 const Posts = ({ posts }: { posts: Post[] }) => {
   const {
@@ -15,7 +13,6 @@ const Posts = ({ posts }: { posts: Post[] }) => {
 
   const [token] = useToken()
   const [session] = useSession()
-  // const [posts] = usePosts(slug)
 
   const isAuthorized = (slug: string) =>
     session?.user.role === "admin" || session?.user.teams.includes(slug)
@@ -31,16 +28,9 @@ const Posts = ({ posts }: { posts: Post[] }) => {
 
   return (
     <section className="posts">
-      {isAuthorized(String(slug)) && (
-        <Link href={`/team/${slug}/post`}>
-          <a>Add</a>
-        </Link>
-      )}
-      {/* <ul className="list md:masonry before:box-inherit after:box-inherit"> */}
       <ul className="list">
         {posts &&
           posts.map((post, i) => (
-            // <li key={i} className="break-inside">
             <li key={i}>
               <Post
                 {...post}
