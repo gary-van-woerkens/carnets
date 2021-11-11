@@ -23,3 +23,18 @@ remote_relationships:
               slug: $team_slug
     remote_schema: github
   name: team
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      team_slug:
+        _in:
+        - x-hasura-allowed-teams
+    columns:
+    - author
+    - mood
+    - needs
+    - priorities
+    - team_slug
+    - term
+  role: user

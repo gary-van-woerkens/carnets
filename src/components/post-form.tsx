@@ -1,17 +1,17 @@
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import ReactMarkdown from "react-markdown"
+import MarkdownEditor from "@/components/common/markdown-editor"
 
 import usePost from "@/services/post"
 import useSWR from "swr"
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
 import { getPost } from "../queries"
-import Loader from "./loader"
+import Loader from "./common/loader"
+import { createPost } from "@/queries/index"
 
-import Wizard from "@/components/wizard"
-import Step from "@/components/wizard/step"
+import Wizard, { Steps, Step, Status } from "@/components/common/wizard"
 
 const defaultValues = {
   // team: "",
@@ -45,79 +45,79 @@ Un exemple de liste:
 - sous élément 2`,
 }
 
-const Success = ({ slug }: { slug: string }) => (
-  <div className="flex flex-1 items-center justify-center">
-    <div className="text-9xl text-success relative -top-4">✓</div>
-    <div>
-      <p>Votre publication a été enregitrée avec succès.</p>
-      <p>
-        Retrouvez cette publication en vous rendant sur{" "}
-        <Link href={`/team/${slug}`}>
-          <a>la page dédiée à l&apos;équipe</a>
-        </Link>
-        .
-      </p>
-    </div>
-  </div>
-)
+// const Success = ({ slug }: { slug: string }) => (
+//   <div className="flex flex-1 items-center justify-center">
+//     <div className="text-9xl text-success relative -top-4">✓</div>
+//     <div>
+//       <p>Votre publication a été enregitrée avec succès.</p>
+//       <p>
+//         Retrouvez cette publication en vous rendant sur{" "}
+//         <Link href={`/team/${slug}`}>
+//           <a>la page dédiée à l&apos;équipe</a>
+//         </Link>
+//         .
+//       </p>
+//     </div>
+//   </div>
+// )
 
-const Mood = ({
-  post,
-  handleChange,
-}: {
-  post: Post
-  handleChange: (name: string, value: string) => void
-}) => (
-  <>
-    <h2 className="text-center py-10">
-      L&apos;état d&apos;esprit de l&apos;équipe:
-    </h2>
-    <MoodSelector value={post.mood} handleChange={handleChange} />
-  </>
-)
+// const Mood = ({
+//   post,
+//   handleChange,
+// }: {
+//   post: Post
+//   handleChange: (name: string, value: string) => void
+// }) => (
+//   <>
+//     <h2 className="text-center py-10">
+//       L&apos;état d&apos;esprit de l&apos;équipe:
+//     </h2>
+//     <MoodSelector value={post.mood} handleChange={handleChange} />
+//   </>
+// )
 
-const Term = ({
-  post,
-  handleChange,
-}: {
-  post: Post
-  handleChange: (name: string, value: string) => void
-}) => (
-  <>
-    <h2 className="text-center py-10">Vos prochaines échéances:</h2>
-    <Editor name="term" value={post.term} handleChange={handleChange} />
-  </>
-)
+// const Term = ({
+//   post,
+//   handleChange,
+// }: {
+//   post: Post
+//   handleChange: (name: string, value: string) => void
+// }) => (
+//   <>
+//     <h2 className="text-center py-10">Vos prochaines échéances:</h2>
+//     <MarkdownEditor name="term" value={post.term} handleChange={handleChange} />
+//   </>
+// )
 
-const Needs = ({
-  post,
-  handleChange,
-}: {
-  post: Post
-  handleChange: (name: string, value: string) => void
-}) => (
-  <>
-    <h2 className="text-center py-10">Vos besoins immédiats:</h2>
-    <Editor name="needs" value={post.needs} handleChange={handleChange} />
-  </>
-)
+// const Needs = ({
+//   post,
+//   handleChange,
+// }: {
+//   post: Post
+//   handleChange: (name: string, value: string) => void
+// }) => (
+//   <>
+//     <h2 className="text-center py-10">Vos besoins immédiats:</h2>
+//     <MarkdownEditor name="needs" value={post.needs} handleChange={handleChange} />
+//   </>
+// )
 
-const Priorities = ({
-  post,
-  handleChange,
-}: {
-  post: Post
-  handleChange: (name: string, value: string) => void
-}) => (
-  <>
-    <h2 className="text-center py-10">Vos priorités de la semaine:</h2>
-    <Editor
-      name="priorities"
-      value={post.priorities}
-      handleChange={handleChange}
-    />
-  </>
-)
+// const Priorities = ({
+//   post,
+//   handleChange,
+// }: {
+//   post: Post
+//   handleChange: (name: string, value: string) => void
+// }) => (
+//   <>
+//     <h2 className="text-center py-10">Vos priorités de la semaine:</h2>
+//     <MarkdownEditor
+//       name="priorities"
+//       value={post.priorities}
+//       handleChange={handleChange}
+//     />
+//   </>
+// )
 
 const MoodSelector = ({
   value,
@@ -144,101 +144,78 @@ const MoodSelector = ({
   )
 }
 
-const Editor = ({
-  name,
-  value,
-  handleChange,
-}: {
-  name: string
-  value: string
-  handleChange: (name: string, value: string) => void
-}) => (
-  <div className="flex flex-col flex-1 pb-10">
-    <div className="flex flex-1">
-      <textarea
-        className="flex-1 p-5 border rounded mr-5 bg-beige"
-        value={value}
-        onChange={(e) => handleChange(name, e.target.value)}
-      ></textarea>
-      <div className="flex-1 p-5 border border-gray-100 shadow-lg z-10 bg-white">
-        <ReactMarkdown className="prose prose-sm">{value}</ReactMarkdown>
-      </div>
-    </div>
-  </div>
-)
+// const Wizardx = ({
+//   post,
+//   slug,
+//   success,
+//   onComplete,
+//   handleChange,
+// }: {
+//   post: Post
+//   slug: string
+//   success: boolean
+//   onComplete: () => void
+//   handleChange: (name: string, value: string) => void
+// }) => {
+//   const steps = [1, 2, 3, 4]
+//   const [activeStep, setActiveStep] = useState(1)
 
-const Wizardx = ({
-  post,
-  slug,
-  success,
-  onComplete,
-  handleChange,
-}: {
-  post: Post
-  slug: string
-  success: boolean
-  onComplete: () => void
-  handleChange: (name: string, value: string) => void
-}) => {
-  const steps = [1, 2, 3, 4]
-  const [activeStep, setActiveStep] = useState(1)
+//   const isLastStep = () => activeStep === steps.length
 
-  const isLastStep = () => activeStep === steps.length
+//   const handleClick = async () => {
+//     console.log("activeStep", activeStep, steps.length)
+//     setActiveStep(activeStep + 1)
+//     if (isLastStep()) {
+//       onComplete()
+//     }
+//   }
 
-  const handleClick = async () => {
-    console.log("activeStep", activeStep, steps.length)
-    setActiveStep(activeStep + 1)
-    if (isLastStep()) {
-      onComplete()
-    }
-  }
-
-  return (
-    <>
-      <div className="wizard">
-        <div className="steps">
-          {steps.map((step, i) => (
-            <React.Fragment key={i}>
-              <div
-                className={`indicator${step === activeStep ? " active" : ""}${
-                  i + 1 < activeStep ? " completed" : ""
-                }`}
-              >
-                {step}
-              </div>
-              {i < steps.length - 1 && (
-                <div
-                  className={`line${i + 1 < activeStep ? " completed" : ""}`}
-                ></div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
-      </div>
-      {activeStep === 1 && (
-        <Priorities post={post} handleChange={handleChange} />
-      )}
-      {activeStep === 2 && <Needs post={post} handleChange={handleChange} />}
-      {activeStep === 3 && <Term post={post} handleChange={handleChange} />}
-      {activeStep === 4 && <Mood post={post} handleChange={handleChange} />}
-      {!success && activeStep === 5 && <Loader size="lg" />}
-      {activeStep <= steps.length && (
-        <div className="flex justify-end">
-          <button
-            className="primary"
-            onClick={(e) => {
-              e.preventDefault()
-              handleClick()
-            }}
-          >
-            {isLastStep() ? "Publier" : "Suivant"}
-          </button>
-        </div>
-      )}
-      {success && <Success slug={slug} />}
-    </>
-  )
-}
+//   return (
+//     <>
+//       <div className="wizard">
+//         <div className="steps">
+//           {steps.map((step, i) => (
+//             <React.Fragment key={i}>
+//               <div
+//                 className={`indicator${step === activeStep ? " active" : ""}${
+//                   i + 1 < activeStep ? " completed" : ""
+//                 }`}
+//               >
+//                 {step}
+//               </div>
+//               {i < steps.length - 1 && (
+//                 <div
+//                   className={`line${i + 1 < activeStep ? " completed" : ""}`}
+//                 ></div>
+//               )}
+//             </React.Fragment>
+//           ))}
+//         </div>
+//       </div>
+//       {activeStep === 1 && (
+//         <Priorities post={post} handleChange={handleChange} />
+//       )}
+//       {activeStep === 2 && <Needs post={post} handleChange={handleChange} />}
+//       {activeStep === 3 && <Term post={post} handleChange={handleChange} />}
+//       {activeStep === 4 && <Mood post={post} handleChange={handleChange} />}
+//       {!success && activeStep === 5 && <Loader size="lg" />}
+//       {activeStep <= steps.length && (
+//         <div className="flex justify-end">
+//           <button
+//             className="primary"
+//             onClick={(e) => {
+//               e.preventDefault()
+//               handleClick()
+//             }}
+//           >
+//             {isLastStep() ? "Publier" : "Suivant"}
+//           </button>
+//         </div>
+//       )}
+//       {success && <Success slug={slug} />}
+//     </>
+//   )
+// }
 
 const PostForm = () => {
   const router = useRouter()
@@ -246,6 +223,7 @@ const PostForm = () => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
+  const [status, setStatus] = useState<Status>("steps")
 
   const {
     query: { slug, id },
@@ -257,37 +235,32 @@ const PostForm = () => {
 
   const [post, setPost] = useState(data || defaultValues)
 
-  // const handleSubmit = async () => {
-  //   console.log("ON SUBMIT", post)
-  //   setSuccess(true)
-  // }
+  const submit = async () => {
+    console.log("ON SUBMIT", post)
+    try {
+      const result = await fetcher(createPost, token, { post })
+      console.log("result", result)
+      setStatus("success")
+    } catch (error) {
+      setStatus("error")
+      throw error
+    }
+  }
 
   const handleChange = (name: string, value: string) =>
     setPost({ ...post, [name]: value })
 
-  // const handleClick = () => {
-  //   setActiveStep(activeStep + 1)
-  // }
-
   const handleComplete = () => {
-    // setLoading(true)
-    // fetcher(createPostQuery, token, { post })
-    // setTimeout(() => {
-    //   setSuccess(true)
-    // }, 5000)
+    setStatus("loading")
+    submit()
   }
 
   return (
     <form className="flex flex-col flex-1">
-      <Wizard
-        error={false}
-        success={false}
-        loading={false}
-        onComplete={handleComplete}
-      >
+      <Steps status={status} onComplete={handleComplete}>
         <Step>
           <h2 className="text-center pb-10">Vos priorités de la semaine:</h2>
-          <Editor
+          <MarkdownEditor
             name="priorities"
             value={post.priorities}
             handleChange={handleChange}
@@ -295,14 +268,22 @@ const PostForm = () => {
         </Step>
         <Step>
           <h2 className="text-center pb-10">Vos besoins immédiats:</h2>
-          <Editor name="needs" value={post.needs} handleChange={handleChange} />
+          <MarkdownEditor
+            name="needs"
+            value={post.needs}
+            handleChange={handleChange}
+          />
         </Step>
         <Step>
-          <h2 className="text-center py-10">Vos prochaines échéances:</h2>
-          <Editor name="term" value={post.term} handleChange={handleChange} />
+          <h2 className="text-center pb-10">Vos prochaines échéances:</h2>
+          <MarkdownEditor
+            name="term"
+            value={post.term}
+            handleChange={handleChange}
+          />
         </Step>
         <Step>
-          <h2 className="text-center py-10">
+          <h2 className="text-center pb-10">
             L&apos;état d&apos;esprit de l&apos;équipe:
           </h2>
           <MoodSelector value={post.mood} handleChange={handleChange} />
@@ -325,14 +306,25 @@ const PostForm = () => {
             </div>
           </div>
         </Step>
-      </Wizard>
-      {/* <Wizard
-        post={post}
-        success={success}
-        slug={String(slug)}
-        onComplete={handleSubmit}
-        handleChange={handleChange}
-      /> */}
+        <Step type="error">
+          <div className="flex flex-1 items-center justify-center">
+            <div className="text-9xl text-error relative -top-4">❌</div>
+            <div>
+              <p>
+                Un problème est survenu empechant votre publication d&apos;être
+                enregitrée.
+              </p>
+              <p>
+                Veuillez essayer ultèrieurement en repartant de{" "}
+                <Link href={`/team/${slug}`}>
+                  <a>la page dédiée à l&apos;équipe</a>
+                </Link>
+                .
+              </p>
+            </div>
+          </div>
+        </Step>
+      </Steps>
     </form>
   )
 }

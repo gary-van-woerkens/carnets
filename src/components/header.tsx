@@ -1,7 +1,6 @@
 import Link from "next/link"
 
-import Logo from "@/components/logo"
-import User from "@/components/user"
+import Logo from "@/components/common/logo"
 import Auth from "@/components/auth"
 
 const Header = () => (
@@ -17,7 +16,6 @@ const Header = () => (
           <a>Statistiques</a>
         </Link>
         <Auth />
-        <User />
       </nav>
     </div>
   </header>

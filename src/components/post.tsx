@@ -2,7 +2,7 @@ import Link from "next/link"
 import { format } from "date-fns"
 import ReactMarkdown from "react-markdown"
 
-import TabPanel, { Tab, Tabs, Panels } from "@/components/tab-panel"
+import TabPanel, { Tab, Tabs, Panels } from "@/components/common/tab-panel"
 
 const Post = ({
   id,

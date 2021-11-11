@@ -1,4 +1,4 @@
-import useSWR, { SWRConfig } from "swr"
+import useSWR from "swr"
 
 import { getJwt } from "@/utils/jwt"
 import fetcher from "@/utils/fetcher"
@@ -6,7 +6,7 @@ import Posts from "@/components/posts"
 import Team from "@/components/team"
 import Teams from "@/components/teams"
 import useToken from "@/services/token"
-import Loader from "@/components/loader"
+import Loader from "@/components/common/loader"
 import {
   getTeams as getTeamsQuery,
   getLastPosts as getLastPostsQuery,
