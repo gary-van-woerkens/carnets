@@ -23,28 +23,3 @@ remote_relationships:
               slug: $team_slug
     remote_schema: github
   name: team
-select_permissions:
-- permission:
-    columns:
-    - team_slug
-    - created_at
-    - id
-    - mood
-    - priorities
-    - term
-    - needs
-    - author
-    filter: {}
-  role: anonymous
-- permission:
-    columns:
-    - author
-    - mood
-    - needs
-    - priorities
-    - team_slug
-    - term
-    - created_at
-    - id
-    filter: {}
-  role: user
