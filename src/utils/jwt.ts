@@ -18,5 +18,7 @@ export function getJwt(role: Role = "anonymous", teams: string[] = []): string {
     },
   }
 
-  return jwt.sign(claim, process.env.HASURA_JWT_KEY || "", options)
+  const token = jwt.sign(claim, process.env.HASURA_JWT_KEY || "", options)
+  // console.log("token", token)
+  return token
 }

@@ -12,6 +12,7 @@ import Loader from "./common/loader"
 import { createPost } from "@/queries/index"
 
 import Wizard, { Steps, Step, Status } from "@/components/common/wizard"
+import { session, useSession } from "next-auth/client"
 
 const defaultValues = {
   // team: "",
@@ -220,6 +221,9 @@ const MoodSelector = ({
 const PostForm = () => {
   const router = useRouter()
   const [token] = useToken()
+  const [session] = useSession()
+  console.log("session", session)
+
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
@@ -238,7 +242,9 @@ const PostForm = () => {
   const submit = async () => {
     console.log("ON SUBMIT", post)
     try {
-      const result = await fetcher(createPost, token, { post })
+      const result = await fetcher(createPost, token, {
+        post: { ...post, team_slug: slug, author: session?.user.login },
+      })
       console.log("result", result)
       setStatus("success")
     } catch (error) {

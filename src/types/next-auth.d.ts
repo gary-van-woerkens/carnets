@@ -8,6 +8,7 @@ declare module "next-auth" {
       // email: string
       role: Role
       name: string
+      login: string
       image: string
       teams: string[]
     }

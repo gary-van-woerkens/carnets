@@ -104,6 +104,7 @@ export default NextAuth({
   callbacks: {
     async session(session, token) {
       session.user.role = token.role
+      session.user.login = token.login as string
       session.user.teams = token.teams
       return session
     },
@@ -116,8 +117,8 @@ export default NextAuth({
         } = await fetcher(getUserTeams, getJwt(), {
           login: user.login,
         })
+        token.login = user.login
         token.teams = teams.map((team: Team) => team.slug)
-        // token.role = token.teams.includes("core-team") ? "admin" : "user"
         token.role = token.teams.includes("core-team") ? "user" : "admin"
       }
       return token
