@@ -1,3 +1,5 @@
+type Mood = "good" | "average" | "bad"
+
 interface TeamStatus {
   mood: string
   kpis_count: number
@@ -36,10 +38,10 @@ interface Kpi {
 }
 
 interface Post {
+  mood: Mood
   id?: string
   team?: Team
   kpis?: [Kpi]
-  mood: string
   term: string
   needs: string
   author?: string

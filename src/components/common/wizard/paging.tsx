@@ -13,15 +13,13 @@ const Paging = ({
         <Fragment key={i}>
           <div
             className={`indicator${i === activeStep ? " active" : ""}${
-              i + 1 < activeStep ? " completed" : ""
+              i < activeStep ? " completed" : ""
             }`}
           >
-            {i}
+            {i + 1}
           </div>
           {i < totalSteps - 1 && (
-            <div
-              className={`line${i + 1 < activeStep ? " completed" : ""}`}
-            ></div>
+            <div className={`line${i < activeStep ? " completed" : ""}`}></div>
           )}
         </Fragment>
       ))}

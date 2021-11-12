@@ -1,23 +1,28 @@
 import Link from "next/link"
 
-import Logo from "@/components/logo"
-import User from "@/components/user"
 import Auth from "@/components/auth"
+import Logo from "@/components/common/logo"
 
 const Header = () => (
   <header>
-    <div>
-      <Logo />
-      <div className="title">
-        <h1>Carnets</h1>
-        <p>Carnets de bord des produits @SocialGouv</p>
-      </div>
+    <div className="container">
+      <Link href="/">
+        <a>
+          <Logo />
+          <div className="title">
+            <h1>Carnets</h1>
+            <p>Carnets de bord des produits @SocialGouv</p>
+          </div>
+        </a>
+      </Link>
       <nav>
         <Link href="/stat">
-          <a>Statistiques</a>
+          <a>
+            <i className="ri-bar-chart-fill" />
+            Statistiques
+          </a>
         </Link>
         <Auth />
-        <User />
       </nav>
     </div>
   </header>

@@ -4,21 +4,24 @@
   .mood {
     @apply
       flex
-      items-center
-      justify-center
+      p-8
       h-40
       w-40
       border
-      border-gray-100
-      p-8
+      flex-col
       shadow-lg
       bg-gray-100
+      items-center
+      text-gray-500
+      justify-center
       cursor-pointer
+      border-gray-100
       hover:shadow
-      hover:bg-white;
+      hover:bg-white
+      hover:text-blue-500;
 
     &.selected {
-      @apply bg-white shadow;
+      @apply bg-white text-blue-500 shadow;
     }
   }
 }

@@ -1,8 +1,8 @@
 .wizard {
-  @apply flex;
+  @apply flex flex-1 flex-col;
 
-  .steps {
-    @apply flex flex-1 items-center px-80;
+  .paging {
+    @apply flex items-center px-80 pb-5;
 
     .indicator {
       @apply
@@ -34,6 +34,18 @@
       &.completed {
         @apply border-blue-500;
       }
+    }
+  }
+
+  .steps {
+    @apply flex flex-col flex-1;
+
+    .step {
+      @apply flex flex-col flex-1;
+    }
+
+    .actions {
+      @apply flex justify-end;
     }
   }
 }

@@ -1,7 +1,9 @@
 import { withRouter } from "next/router"
 import { signIn, signOut, useSession } from "next-auth/client"
 
-const Auth = (): JSX.Element => {
+import User from "@/components/user"
+
+const Auth = () => {
   const [session] = useSession()
 
   return (
@@ -14,19 +16,25 @@ const Auth = (): JSX.Element => {
             signIn()
           }}
         >
+          <i className="ri-login-box-line" />
           Connexion
         </a>
       )}
       {session?.user && (
-        <a
-          href={`/api/auth/signout`}
-          onClick={(e) => {
-            e.preventDefault()
-            signOut()
-          }}
-        >
-          Déconnexion
-        </a>
+        <div className="flex items-center">
+          <a
+            className="mr-4"
+            href={`/api/auth/signout`}
+            onClick={(e) => {
+              e.preventDefault()
+              signOut()
+            }}
+          >
+            <i className="ri-logout-box-r-line" />
+            Déconnexion
+          </a>
+          <User />
+        </div>
       )}
     </>
   )
