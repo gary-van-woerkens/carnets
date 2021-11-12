@@ -5,9 +5,10 @@ import { useSession } from "next-auth/client"
 import MarkdownEditor from "@/components/common/markdown-editor"
 
 import useSWR from "swr"
-import Loader from "./common/loader"
 import fetcher from "@/utils/fetcher"
 import useToken from "@/services/token"
+import Mood from "@/components/common/mood"
+import Loader from "@/components/common/loader"
 import { createPost, getPost } from "@/queries/index"
 import Wizard, { Step, Status } from "@/components/common/wizard"
 
@@ -38,99 +39,29 @@ Un exemple de liste:
 - sous élément 2`,
 }
 
-// const Success = ({ slug }: { slug: string }) => (
-//   <div className="flex flex-1 items-center justify-center">
-//     <div className="text-9xl text-success relative -top-4">✓</div>
-//     <div>
-//       <p>Votre publication a été enregitrée avec succès.</p>
-//       <p>
-//         Retrouvez cette publication en vous rendant sur{" "}
-//         <Link href={`/team/${slug}`}>
-//           <a>la page dédiée à l&apos;équipe</a>
-//         </Link>
-//         .
-//       </p>
-//     </div>
-//   </div>
-// )
-
-// const Mood = ({
-//   post,
-//   handleChange,
-// }: {
-//   post: Post
-//   handleChange: (name: string, value: string) => void
-// }) => (
-//   <>
-//     <h2 className="text-center py-10">
-//       L&apos;état d&apos;esprit de l&apos;équipe:
-//     </h2>
-//     <MoodSelector value={post.mood} handleChange={handleChange} />
-//   </>
-// )
-
-// const Term = ({
-//   post,
-//   handleChange,
-// }: {
-//   post: Post
-//   handleChange: (name: string, value: string) => void
-// }) => (
-//   <>
-//     <h2 className="text-center py-10">Vos prochaines échéances:</h2>
-//     <MarkdownEditor name="term" value={post.term} handleChange={handleChange} />
-//   </>
-// )
-
-// const Needs = ({
-//   post,
-//   handleChange,
-// }: {
-//   post: Post
-//   handleChange: (name: string, value: string) => void
-// }) => (
-//   <>
-//     <h2 className="text-center py-10">Vos besoins immédiats:</h2>
-//     <MarkdownEditor name="needs" value={post.needs} handleChange={handleChange} />
-//   </>
-// )
-
-// const Priorities = ({
-//   post,
-//   handleChange,
-// }: {
-//   post: Post
-//   handleChange: (name: string, value: string) => void
-// }) => (
-//   <>
-//     <h2 className="text-center py-10">Vos priorités de la semaine:</h2>
-//     <MarkdownEditor
-//       name="priorities"
-//       value={post.priorities}
-//       handleChange={handleChange}
-//     />
-//   </>
-// )
-
 const MoodSelector = ({
   value,
   handleChange,
 }: {
-  value: string
+  value: Mood
   handleChange: (name: string, value: string) => void
 }) => {
-  const moods = ["bad", "average", "good"]
-  console.log("mood ==>", value)
+  const moods = [
+    { value: "good", label: "bon" },
+    { value: "average", label: "moyen" },
+    { value: "bad", label: "mauvais" },
+  ] as { value: Mood; label: string }[]
 
   return (
     <div className="mood-selector">
       {moods.map((mood, i) => (
         <div
           key={i}
-          onClick={() => handleChange("mood", mood)}
-          className={`mood${mood === value ? " selected" : ""}`}
+          onClick={() => handleChange("mood", mood.value)}
+          className={`mood${mood.value === value ? " selected" : ""}`}
         >
-          {mood}
+          <Mood mood={mood.value} />
+          <p className="pt-5">{mood.label}</p>
         </div>
       ))}
     </div>

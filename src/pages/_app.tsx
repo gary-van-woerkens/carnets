@@ -4,6 +4,7 @@ import { Provider } from "next-auth/client"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 
+import "remixicon/fonts/remixicon.css"
 import "@/styles/tailwind.scss"
 import "@/styles/globals.scss"
 

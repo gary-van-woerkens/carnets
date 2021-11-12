@@ -16,6 +16,7 @@ const Auth = () => {
             signIn()
           }}
         >
+          <i className="ri-login-box-line" />
           Connexion
         </a>
       )}
@@ -29,6 +30,7 @@ const Auth = () => {
               signOut()
             }}
           >
+            <i className="ri-logout-box-r-line" />
             Déconnexion
           </a>
           <User />

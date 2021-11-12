@@ -30,8 +30,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       fallback: {
         teams,
-        [`posts/${slug}`]: posts,
         [`team/${slug}`]: team,
+        [`posts/${slug}`]: posts,
       },
     },
   }
@@ -42,9 +42,9 @@ const Page = ({ fallback }: { fallback: Record<string, Team[] | Post[]> }) => {
   const slug = Array.isArray(query.slug) ? query.slug[0] : query.slug
 
   return (
-    <div className="flex flex-1 container mx-auto py-10">
+    <div className="container">
       <SWRConfig value={{ fallback }}>
-        <aside className="flex min-h-full max-h-screen sticky top-0 w-48 border-r border-gray-300 mr-8">
+        <aside>
           <TeamsLoader />
         </aside>
         <main className="flex flex-col flex-1">

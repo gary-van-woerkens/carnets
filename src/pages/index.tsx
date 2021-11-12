@@ -19,9 +19,9 @@ const Page = ({
 }: {
   fallback: Record<"teams" | "posts", Team[] | Post[]>
 }) => (
-  <div className="flex flex-1 container mx-auto py-10">
+  <div className="container">
     <SWRConfig value={{ fallback }}>
-      <aside className="flex min-h-full max-h-screen sticky top-0 w-48 border-r border-gray-300 mr-8">
+      <aside>
         <TeamsLoader />
       </aside>
       <main className="flex flex-1">

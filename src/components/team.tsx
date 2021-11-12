@@ -31,7 +31,10 @@ const Team = ({ team }: { team: Team }) => {
       </div>
       {isAuthorized && (
         <Link href={`/team/${query.slug}/post`}>
-          <a className="btn primary">Publier</a>
+          <a className="btn primary">
+            <i className="ri-add-fill ri-lg" />
+            Publier
+          </a>
         </Link>
       )}
     </section>
