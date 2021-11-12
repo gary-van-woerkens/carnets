@@ -4,7 +4,7 @@ import Statuses from "@/components/statuses"
 
 const StatPage: NextPage = () => {
   return (
-    <main className="container mx-auto">
+    <main className="container flex flex-col">
       <section className="p-10">
         <h2 className="pb-10">Nombre de publications par semaine</h2>
         <Chart />

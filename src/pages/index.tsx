@@ -1,4 +1,4 @@
-import useSWR, { SWRConfig } from "swr"
+import { SWRConfig } from "swr"
 import type { GetStaticProps } from "next"
 
 import { getTeams, getPosts, TeamsLoader, PostsLoader } from "@/utils/helpers"
