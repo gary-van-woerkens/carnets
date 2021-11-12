@@ -11,8 +11,7 @@ services:
       - "5432:5432"
   hasura:
     build:
-      context: .
-      dockerfile: ./packages/hasura/Dockerfile
+      context: ./packages/hasura
     ports:
       - "8080:8080"
     depends_on:
