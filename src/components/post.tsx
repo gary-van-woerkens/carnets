@@ -2,7 +2,7 @@ import Link from "next/link"
 import { format } from "date-fns"
 import ReactMarkdown from "react-markdown"
 
-import Mood from "./common/mood"
+import Mood from "@/components/common/mood"
 import TabPanel, { Tab, Tabs, Panels } from "@/components/common/tab-panel"
 
 const Post = ({
@@ -23,11 +23,19 @@ const Post = ({
       <div className="flex mb-5">
         <div className="flex-1">
           <h2>{team?.name}</h2>
-          <div className="flex text-sm text-gray-500">
-            <div className="mr-2">{author}</div>
-            <div>
-              {created_at && format(new Date(created_at), "dd-MM-yyyy")}
-            </div>
+          <div className="flex text-sm text-gray-500 items-end">
+            <p>
+              Publié le{" "}
+              {created_at && format(new Date(created_at), "dd/MM/yyyy")}{" "}
+              par&nbsp;
+            </p>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={`https://github.com/${author}`}
+            >
+              {author}
+            </a>
           </div>
         </div>
         <Mood mood={mood} />

@@ -1,11 +1,15 @@
-footer {
-  @apply border-t-2 border-blue-500 pt-8;
+#__next > footer { /* stylelint-disable-line */
+  @apply border-t-2 border-blue-500;
 
-  .info {
-    @apply flex-1 text-justify text-sm flex flex-col justify-center;
+  .container {
+    @apply flex mx-auto py-8;
 
-    p {
-      @apply mb-4 last:mb-0;
+    .info {
+      @apply flex-1 text-justify text-sm flex flex-col justify-center;
+
+      p {
+        @apply mb-4 last:mb-0;
+      }
     }
   }
 

@@ -4,7 +4,7 @@ import Logo from "@/components/common/logo"
 
 const Footer = () => (
   <footer>
-    <div className="flex container mx-auto pb-5">
+    <div className="container">
       <div className="flex-1">
         <Logo big />
       </div>
@@ -25,6 +25,18 @@ const Footer = () => (
             wiki
           </a>
           .
+        </p>
+        <p className="flex">
+          <i className="ri-github-fill ri-2x relative top-px mr-1" />
+          version {process.env.NEXT_PUBLIC_APP_VERSION} (
+          <a
+            target="_blank"
+            href={`${process.env.NEXT_PUBLIC_APP_REPOSITORY_URL}/tree/${process.env.NEXT_PUBLIC_APP_VERSION_COMMIT}`}
+            rel="noreferrer"
+          >
+            {process.env.NEXT_PUBLIC_APP_VERSION_COMMIT}
+          </a>
+          )
         </p>
       </div>
     </div>
